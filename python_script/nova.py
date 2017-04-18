@@ -52,14 +52,13 @@ if __name__ == '__main__':
             send_request(create_url, 'POST',
                          headers=create_headers,
                          data=json.JSONEncoder().encode(create_data))
-            # Get, update and delete an VM
-            server = list_servers.pop()
-            if not server:
-                continue
-            vm_url = "http://{}:8774/v2.1/{}/servers/{}".format(IP, PROJECT_ID, server.get('id'))
-            send_request(vm_url, 'GET', headers=get_headers)
-            # Delete VM
-            send_request(vm_url, 'DELETE', headers=get_headers)
+            # Get and delete an VM
+            if not (len(list_servers) == 0):
+                server = list_servers.pop()
+                vm_url = "http://{}:8774/v2.1/{}/servers/{}".format(IP, PROJECT_ID, server.get('id'))
+                send_request(vm_url, 'GET', headers=get_headers)
+                # Delete VM
+                send_request(vm_url, 'DELETE', headers=get_headers)
 
             # Update VM name
             update_url = "http://{}:8774/v2.1/{}/servers/{}".format(IP, PROJECT_ID, VM_ID)

@@ -17,7 +17,7 @@ future = send_request(get_list_url, 'GET', headers=token_headers)
 result = future.result().content
 result = json.loads(result)
 list_networks = result.get("networks")
-list_networks = {network for network in list_networks if "testing" in network.get('name')}
+list_networks = [network for network in list_networks if "testing" in network.get('name')]
 
 if __name__ == '__main__':
     i = 1
@@ -50,10 +50,9 @@ if __name__ == '__main__':
                          data=json.JSONEncoder().encode(create_subnet_data))
 
         # Get and delete network
-        delete_network = list_networks.pop()
-        if not delete_network:
-            continue
-        delete_network_id = delete_network.get("id")
-        get_network_url = "http://{}:9696/v2.0/network/{}".format(IP, delete_network_id)
-        send_request(get_network_url, 'GET', headers=token_headers)
-        send_request(get_network_url, 'DELETE', headers=token_headers)
+        if not (len(list_networks) == 0):
+            delete_network = list_networks.pop()
+            delete_network_id = delete_network.get("id")
+            get_network_url = "http://{}:9696/v2.0/network/{}".format(IP, delete_network_id)
+            send_request(get_network_url, 'GET', headers=token_headers)
+            send_request(get_network_url, 'DELETE', headers=token_headers)
