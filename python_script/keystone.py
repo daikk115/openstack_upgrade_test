@@ -2,9 +2,10 @@ import json
 
 from config import *
 from utils import *
-from get_token import TOKEN
+from get_auth import TOKEN
 
-# We must have an user with password is "1" for update password testing
+# We must have an user that we will update name testing
+# Do NOT confuse with user which we have configured in config.py
 USER_ID = "1f794d2fc66b439a899043cac71db9d9"
 
 # Url

@@ -13,3 +13,4 @@ auth = v3.Password(auth_url=AUTH_URL,
 
 session = session.Session(auth=auth)
 TOKEN = session.get_token()
+PROJECT_ID = session.get_project_id()

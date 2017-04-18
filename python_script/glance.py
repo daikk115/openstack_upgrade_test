@@ -2,7 +2,7 @@ import json
 
 from config import *
 from utils import *
-from get_token import TOKEN
+from get_auth import TOKEN
 
 ##################
 ##### CONFIG #####

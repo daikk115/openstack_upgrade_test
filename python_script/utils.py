@@ -2,11 +2,13 @@
 into list and return analytics via footer function()
 """
 import time
+import signal
 
 from requests_futures.sessions import FuturesSession
 
 tasks = []
 future_session = FuturesSession()
+stop_test  = False
 
 
 def bg_cb(sess, resp):
