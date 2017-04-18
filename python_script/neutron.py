@@ -19,6 +19,16 @@ result = json.loads(result)
 list_networks = result.get("networks")
 list_networks = [network for network in list_networks if "testing" in network.get('name')]
 
+# Update network
+# We should have separate network for updating --> ensure have network for update, that is.
+NETWORK_ID = "f75ff26b-6334-446b-b0b3-50318832c716"
+
+update_data = {
+    "network": {
+        "name": "new-network-test"
+    }
+}
+
 if __name__ == '__main__':
     i = 1
     while True:
@@ -53,6 +63,12 @@ if __name__ == '__main__':
         if not (len(list_networks) == 0):
             delete_network = list_networks.pop()
             delete_network_id = delete_network.get("id")
-            get_network_url = "http://{}:9696/v2.0/network/{}".format(IP, delete_network_id)
+            get_network_url = "http://{}:9696/v2.0/networks/{}".format(IP, delete_network_id)
             send_request(get_network_url, 'GET', headers=token_headers)
             send_request(get_network_url, 'DELETE', headers=token_headers)
+
+        # Update VM name
+        update_url = "http://{}:9696/v2.0/networks/{}".format(IP, NETWORK_ID)
+        send_request(update_url, 'PUT',
+                     headers=token_headers,
+                     data=json.JSONEncoder().encode(update_data))
