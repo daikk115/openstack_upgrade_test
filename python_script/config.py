@@ -1,4 +1,4 @@
-IP = 'localhost'
+IP = '192.168.122.213'
 USERNAME = 'admin'
 PASSWORD = '1'
 PROJECT_NAME = 'admin'
