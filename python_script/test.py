@@ -1,8 +1,16 @@
-if __name__ == '__main__':
-    try:
-        i = 0
-        while True:
-            print("Dai dep{}".format(i))
-            i += 1
-    except KeyboardInterrupt:
-        print("Ok done!")
+import json
+
+from config import *
+from utils import *
+from get_token import TOKEN
+
+get_headers = {
+    'X-Auth-Token': TOKEN,
+    'Content-Type': 'application/openstack-images-v2.1-json-patch'
+}
+# We should have list image for delete testing (all image have similar name)
+list_image_url = 'http://{}:9292/v2/images?name=in:"{}"'.format(IP, "testing")
+
+future = send_request(list_image_url, 'GET', headers=get_headers)
+
+

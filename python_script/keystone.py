@@ -92,7 +92,7 @@ if __name__ == '__main__':
                 send_request(update_user_url, 'DELETE',
                              headers=token_headers)
             except KeyError:
-                pass
+                continue
             # Increase counter variable
             i += 1
     except KeyboardInterrupt:
