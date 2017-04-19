@@ -6,7 +6,7 @@ from get_auth import TOKEN
 
 # We must have an user that we will update name testing
 # Do NOT confuse with user which we have configured in config.py
-USER_ID = "1f794d2fc66b439a899043cac71db9d9"
+USER_ID = "4d61238c6d5a4e2bb270cdf594c7e73c"
 
 # Url
 get_token_url = AUTH_URL + "/auth/tokens"
@@ -30,7 +30,7 @@ future = send_request(create_user_url, 'GET',
 result = future.result().content
 result = json.loads(result)
 result = result.get("users")
-set_users = {user.get('id') for user in result if 'test' in user.get('name')}
+list_users = [user.get('id') for user in result if 'testing' in user.get('name')]
 
 # Data payload
 get_token_data = {
@@ -59,7 +59,7 @@ if __name__ == '__main__':
     i = 1
     while continue_test:
         time.sleep(0.3)
-        # Get token and quit
+        # Get token
         future = send_request(get_token_url, 'POST',
                               headers=get_token_headers,
                               data=json.JSONEncoder().encode(get_token_data))
@@ -68,7 +68,7 @@ if __name__ == '__main__':
         # Create user
         create_user_data = {
             "user": {
-                "name": "create_{}".format(i),
+                "name": "create2_{}".format(i),
                 "password": "default"
             }
         }
@@ -86,12 +86,10 @@ if __name__ == '__main__':
                      headers=token_headers,
                      data=json.JSONEncoder().encode(update_user_data))
         # Delete user
-        try:
-            user_id = set_users.pop()
+        if not (len(list_users) == 0):
+            user_id = list_users.pop()
             delete_user_url = AUTH_URL + "/users/{}".format(user_id)
-            send_request(update_user_url, 'DELETE',
+            send_request(delete_user_url, 'DELETE',
                          headers=token_headers)
-        except KeyError:
-            continue
         # Increase counter variable
         i += 1
