@@ -42,20 +42,19 @@ def footer():
 
     for task in tasks:
         if is_find_start:
-            if task.get('status') >= 500:
+            if (int(task.get('status')) / 100) == 5:
+                count += 1
                 is_find_start = False
                 start = task.get('timestamp')
         else:
+            if (int(task.get('status')) / 100) == 5:
+                count += 1
+                end = task.get('timestamp')
             try:
                 error_dict[task.get('status')] += 1
             except:
                 error_dict[task.get('status')] = 1
-                if task.get('status') / 100 < 4:
-                    end = task.get('timestamp')
 
-    for key in error_dict:
-        if (int(key) / 100) == 5:
-            count += error_dict.get(key)
     print("Downtime for rolling upgrade process: {} ms".format(end - start))
     print("Number of fail requests (status code >= 500): {}".format(count))
     print(error_dict)
