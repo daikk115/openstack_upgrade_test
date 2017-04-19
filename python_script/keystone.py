@@ -57,45 +57,41 @@ get_token_data = {
 
 if __name__ == '__main__':
     i = 1
-    try:
-        while True:
-            time.sleep(0.3)
-            # Get token and quit
-            future = send_request(get_token_url, 'POST',
-                                  headers=get_token_headers,
-                                  data=json.JSONEncoder().encode(get_token_data))
-            # To get token: future.result().headers.get("X-Subject-Token")
+    while continue_test:
+        time.sleep(0.3)
+        # Get token and quit
+        future = send_request(get_token_url, 'POST',
+                              headers=get_token_headers,
+                              data=json.JSONEncoder().encode(get_token_data))
+        # To get token: future.result().headers.get("X-Subject-Token")
 
-            # Create user
-            create_user_data = {
-                "user": {
-                    "name": "create_{}".format(i),
-                    "password": "default"
-                }
+        # Create user
+        create_user_data = {
+            "user": {
+                "name": "create_{}".format(i),
+                "password": "default"
             }
-            send_request(create_user_url, 'POST',
-                         headers=token_headers,
-                         data=json.JSONEncoder().encode(create_user_data))
+        }
+        send_request(create_user_url, 'POST',
+                     headers=token_headers,
+                     data=json.JSONEncoder().encode(create_user_data))
 
-            # Update user
-            update_user_data = {
-                "user": {
-                    "name": "update_{}".format(i)
-                }
+        # Update user
+        update_user_data = {
+            "user": {
+                "name": "update_{}".format(i)
             }
-            send_request(update_user_url, 'PATCH',
-                         headers=token_headers,
-                         data=json.JSONEncoder().encode(update_user_data))
-            # Delete user
-            try:
-                user_id = set_users.pop()
-                delete_user_url = AUTH_URL + "/users/{}".format(user_id)
-                send_request(update_user_url, 'DELETE',
-                             headers=token_headers)
-            except KeyError:
-                continue
-            # Increase counter variable
-            i += 1
-    except KeyboardInterrupt:
-        time.sleep(3)
-        footer()
+        }
+        send_request(update_user_url, 'PATCH',
+                     headers=token_headers,
+                     data=json.JSONEncoder().encode(update_user_data))
+        # Delete user
+        try:
+            user_id = set_users.pop()
+            delete_user_url = AUTH_URL + "/users/{}".format(user_id)
+            send_request(update_user_url, 'DELETE',
+                         headers=token_headers)
+        except KeyError:
+            continue
+        # Increase counter variable
+        i += 1

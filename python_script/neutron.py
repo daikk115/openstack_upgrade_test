@@ -23,15 +23,9 @@ list_networks = [network for network in list_networks if "testing" in network.ge
 # We should have separate network for updating --> ensure have network for update, that is.
 NETWORK_ID = "f75ff26b-6334-446b-b0b3-50318832c716"
 
-update_data = {
-    "network": {
-        "name": "new-network-test"
-    }
-}
-
 if __name__ == '__main__':
     i = 1
-    while True:
+    while continue_test:
         # Create network
         create_data = {
             "network": {
@@ -68,6 +62,11 @@ if __name__ == '__main__':
             send_request(get_network_url, 'DELETE', headers=token_headers)
 
         # Update VM name
+        update_data = {
+            "network": {
+                "name": "new_name_{}".format(i)
+            }
+        }
         update_url = "http://{}:9696/v2.0/networks/{}".format(IP, NETWORK_ID)
         send_request(update_url, 'PUT',
                      headers=token_headers,

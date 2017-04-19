@@ -38,32 +38,29 @@ list_servers = result.get("servers")
 # We should have separate VM for updating --> ensure have VM for update, that is.
 VM_ID = "cb6830b0-cdaf-4d43-a1a4-6515c1d6f91e"
 
-update_data = {
-    "server": {
-        "name": "new-server-test"
-    }
-}
-
 if __name__ == '__main__':
-    try:
-        while True:
-            time.sleep(0.3)
-            # Create VM
-            send_request(create_url, 'POST',
-                         headers=create_headers,
-                         data=json.JSONEncoder().encode(create_data))
-            # Get and delete an VM
-            if not (len(list_servers) == 0):
-                server = list_servers.pop()
-                vm_url = "http://{}:8774/v2.1/{}/servers/{}".format(IP, PROJECT_ID, server.get('id'))
-                send_request(vm_url, 'GET', headers=get_headers)
-                # Delete VM
-                send_request(vm_url, 'DELETE', headers=get_headers)
+    i = 1
+    while continue_test:
+        time.sleep(0.3)
+        # Create VM
+        send_request(create_url, 'POST',
+                     headers=create_headers,
+                     data=json.JSONEncoder().encode(create_data))
+        # Get and delete an VM
+        if not (len(list_servers) == 0):
+            server = list_servers.pop()
+            vm_url = "http://{}:8774/v2.1/{}/servers/{}".format(IP, PROJECT_ID, server.get('id'))
+            send_request(vm_url, 'GET', headers=get_headers)
+            # Delete VM
+            send_request(vm_url, 'DELETE', headers=get_headers)
 
-            # Update VM name
-            update_url = "http://{}:8774/v2.1/{}/servers/{}".format(IP, PROJECT_ID, VM_ID)
-            send_request(update_url, 'PUT',
-                         headers=get_headers, data=json.JSONEncoder().encode(update_data))
-    except KeyboardInterrupt:
-        time.sleep(3)
-        footer()
+        # Update VM name
+        i += 1
+        update_data = {
+            "server": {
+                "name": "new_name_{}".format(i)
+            }
+        }
+        update_url = "http://{}:8774/v2.1/{}/servers/{}".format(IP, PROJECT_ID, VM_ID)
+        send_request(update_url, 'PUT',
+                     headers=get_headers, data=json.JSONEncoder().encode(update_data))

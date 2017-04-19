@@ -3,12 +3,13 @@ into list and return analytics via footer function()
 """
 import time
 import signal
+import sys
 
 from requests_futures.sessions import FuturesSession
 
 tasks = []
 future_session = FuturesSession()
-stop_test  = False
+continue_test = True
 
 
 def bg_cb(sess, resp):
@@ -78,3 +79,11 @@ def send_request(url, method, headers=None, data=None, **kwargs):
     else:
         print("Method does not support: {}".format(method))
 
+def signal_handler(signal, frame):
+    global continue_test
+    continue_test = False
+    time.sleep(3)
+    footer()
+    sys.exit(1)
+
+signal.signal(signal.SIGINT, signal_handler)

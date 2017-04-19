@@ -61,8 +61,6 @@ result = json.loads(result)
 list_images = result.get("images")
 
 
-
-
 ################
 def _chunk_body(body):
     # Source: https://github.com/openstack/python-glanceclient/blob/master/glanceclient/common/http.py#L62
@@ -75,7 +73,7 @@ def _chunk_body(body):
 
 
 if __name__ == '__main__':
-    while True:
+    while continue_test:
         time.sleep(0.3)
         try:
             # Create image
@@ -113,6 +111,3 @@ if __name__ == '__main__':
         get_url = patch_url
         send_request(get_url, 'GET',
                      headers=get_headers)
-
-    # Collect error codes
-    footer()
