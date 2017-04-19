@@ -74,32 +74,19 @@ def _chunk_body(body):
 
 if __name__ == '__main__':
     while continue_test:
-        time.sleep(0.3)
-        try:
-            # Create image
-            future = send_request(post_url, 'POST',
-                                  headers=post_headers, data=json.JSONEncoder().encode(post_data))
-            content = future.result().content
-
-            # Delete images
-            image = list_images.pop()
-            delete_url = "http://{}:9292/v2/images/{}".format(IP, image.get('id'))
-            send_request(delete_url, 'DELETE',
-                         headers=get_headers)
-        except KeyboardInterrupt:
-            time.sleep(3)
-            break
-        except:
-            continue
-
+        time.sleep(0.3)  # Create image
+        future = send_request(post_url, 'POST',
+                              headers=post_headers, data=json.JSONEncoder().encode(post_data))
+        content = future.result().content
         image_id = json.loads(content).get('id')
 
-        # Upload image binary data
-        put_url = 'http://{}:9292/v2/images/{}/file'.format(IP, image_id)
-        f = open(image_path, 'rb')
-        chunk_data = _chunk_body(f)
-        put_result = send_request(put_url, 'PUT',
-                                  headers=put_headers, data=chunk_data, stream=True)
+        if image_id:
+            # Upload image binary data
+            put_url = 'http://{}:9292/v2/images/{}/file'.format(IP, image_id)
+            f = open(image_path, 'rb')
+            chunk_data = _chunk_body(f)
+            put_result = send_request(put_url, 'PUT',
+                                      headers=put_headers, data=chunk_data, stream=True)
 
         # Update image
         # Actually, we just rename on the first time run bellow stuffs
@@ -111,3 +98,9 @@ if __name__ == '__main__':
         get_url = patch_url
         send_request(get_url, 'GET',
                      headers=get_headers)
+        # Delete images
+        if not (len(list_images) == 0):
+            image = list_images.pop()
+            delete_url = "http://{}:9292/v2/images/{}".format(IP, image.get('id'))
+            send_request(delete_url, 'DELETE',
+                         headers=get_headers)
