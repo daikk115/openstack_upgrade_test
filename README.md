@@ -1,5 +1,4 @@
-# openstack_api_call
-Push arsync request to OpenStack API
+# OpenStack Upgrade Test
 
 - Prepare:
     + Reconfigure config.py file
