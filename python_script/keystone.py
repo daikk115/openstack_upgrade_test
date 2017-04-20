@@ -68,7 +68,7 @@ if __name__ == '__main__':
         # Create user
         create_user_data = {
             "user": {
-                "name": "create2_{}".format(i),
+                "name": "create3_{}".format(i),
                 "password": "default"
             }
         }

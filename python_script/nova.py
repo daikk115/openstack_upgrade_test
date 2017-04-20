@@ -16,7 +16,12 @@ create_data = {
         "flavorRef": FLAVOR_ID,
         "name": "Testing",  # Create the same VM name, it's OK
         "imageRef": IMAGE_ID,
-        "max_count": 1
+        "max_count": 1,
+        "networks": [
+            {
+                "uuid": "66883877-e7c3-4963-95ea-28d3fd6be62b"
+            }
+        ]
     }
 }
 
@@ -36,7 +41,7 @@ list_servers = result.get("servers")
 
 # Update VM
 # We should have separate VM for updating --> ensure have VM for update, that is.
-VM_ID = "cb6830b0-cdaf-4d43-a1a4-6515c1d6f91e"
+VM_ID = "857f9828-692b-4bda-99dd-b810b437f80a"
 
 if __name__ == '__main__':
     i = 1

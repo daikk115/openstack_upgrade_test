@@ -55,7 +55,7 @@ def footer():
             except:
                 error_dict[task.get('status')] = 1
 
-    print("Downtime for rolling upgrade process: {} ms".format(end - start))
+    # print("Downtime for rolling upgrade process: {} ms".format(end - start))
     print("Number of fail requests (status code >= 500): {}".format(count))
     print(error_dict)
 

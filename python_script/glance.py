@@ -20,7 +20,7 @@ post_data = {
     "container_format": "bare",
     "disk_format": "qcow2",
     # more than one image can have similar name
-    "name": "testing",
+    "name": "new_testing",
     "visibility": "public"
 }
 post_headers = {
@@ -78,15 +78,17 @@ if __name__ == '__main__':
         future = send_request(post_url, 'POST',
                               headers=post_headers, data=json.JSONEncoder().encode(post_data))
         content = future.result().content
-        image_id = json.loads(content).get('id')
-
-        if image_id:
-            # Upload image binary data
-            put_url = 'http://{}:9292/v2/images/{}/file'.format(IP, image_id)
-            f = open(image_path, 'rb')
-            chunk_data = _chunk_body(f)
-            put_result = send_request(put_url, 'PUT',
-                                      headers=put_headers, data=chunk_data, stream=True)
+        try:
+            image_id = json.loads(content).get('id')
+            if image_id:
+                # Upload image binary data
+                put_url = 'http://{}:9292/v2/images/{}/file'.format(IP, image_id)
+                f = open(image_path, 'rb')
+                chunk_data = _chunk_body(f)
+                put_result = send_request(put_url, 'PUT',
+                                          headers=put_headers, data=chunk_data, stream=True)
+        except:
+            pass
 
         # Update image
         # Actually, we just rename on the first time run bellow stuffs
