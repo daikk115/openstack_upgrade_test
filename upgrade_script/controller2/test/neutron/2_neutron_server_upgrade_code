@@ -1,0 +1,3 @@
+#!/bin/bash
+apt-get -y install --only-upgrade neutron-server neutron-plugin-ml2
+

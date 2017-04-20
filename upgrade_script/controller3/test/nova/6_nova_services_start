@@ -1,0 +1,5 @@
+#!/bin/bash
+service nova-scheduler start
+service nova-cert start
+service nova-consoleauth start
+service nova-novncproxy start

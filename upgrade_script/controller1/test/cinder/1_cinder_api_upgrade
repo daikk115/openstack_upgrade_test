@@ -1,0 +1,3 @@
+service cinder-api stop
+apt-get -y install --only-upgrade cinder-api
+service cinder-api start

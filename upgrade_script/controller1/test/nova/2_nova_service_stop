@@ -1,0 +1,6 @@
+#!/bin/bash
+service nova-cert stop
+service nova-consoleauth stop
+service nova-scheduler stop
+service nova-conductor stop
+service nova-novncproxy stop

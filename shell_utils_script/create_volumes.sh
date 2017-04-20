@@ -1,6 +1,7 @@
 #!/bin/bash
-for id in {1000..2000}
+for id in {2001..3700}
 do
+	sleep 5
 	openstack volume create --size 1 $1_$id
 done
 
