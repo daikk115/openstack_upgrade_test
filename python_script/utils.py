@@ -82,7 +82,10 @@ def signal_handler(signal, frame):
     global continue_test
     continue_test = False
     time.sleep(3)
+    print continue_test
     footer()
+    global tasks
+    print("Number of requests that we sent: {}", format(len(tasks)))
     sys.exit(1)
 
 signal.signal(signal.SIGINT, signal_handler)

@@ -54,22 +54,25 @@ if __name__ == '__main__':
             future = send_request(create_network_url, 'POST',
                                   headers=token_headers,
                                   data=json.JSONEncoder().encode(create_network_data))
-            result = future.result().content
-            result = json.loads(result)
-            network = result.get('network')
-            if type(network) is dict:
-                network_id = result['network']['id']
-                create_subnet_data = {
-                    "subnet": {
-                        "network_id": network_id,
-                        "ip_version": 4,
-                        "cidr": "192.168.199.0/24"
+            try:
+                result = future.result().content
+                result = json.loads(result)
+                network = result.get('network')
+                if type(network) is dict:
+                    network_id = result['network']['id']
+                    create_subnet_data = {
+                        "subnet": {
+                            "network_id": network_id,
+                            "ip_version": 4,
+                            "cidr": "192.168.199.0/24"
+                        }
                     }
-                }
-                create_subnet_url = "http://{}:9696/v2.0/subnets".format(IP)
-                send_request(create_subnet_url, 'POST',
-                             headers=token_headers,
-                             data=json.JSONEncoder().encode(create_subnet_data))
+                    create_subnet_url = "http://{}:9696/v2.0/subnets".format(IP)
+                    send_request(create_subnet_url, 'POST',
+                                 headers=token_headers,
+                                 data=json.JSONEncoder().encode(create_subnet_data))
+            except:
+                pass
 
             # Get and delete network
             if not (len(list_networks) == 0):
@@ -118,5 +121,5 @@ if __name__ == '__main__':
             send_request(update_router_url, 'PUT',
                          headers=token_headers,
                          data=json.JSONEncoder().encode(update_router_data))
-        except ConnectionError or ValueError:
+        except ConnectionError:
             pass

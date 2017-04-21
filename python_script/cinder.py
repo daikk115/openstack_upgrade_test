@@ -21,7 +21,7 @@ list_volumes = [v for v in list_volumes if "testing" in v.get('name')]
 
 # Update volume
 # We should have separate volume for updating --> ensure have volume for update, that is.
-VOLUME_ID = "470f85cf-dbf2-4b8b-8614-16043c309e3f"
+VOLUME_ID = "49d81132-6bcb-4c08-8547-62d829a02e3d"
 
 if __name__ == '__main__':
     i = 1
@@ -40,7 +40,6 @@ if __name__ == '__main__':
                      data=json.JSONEncoder().encode(create_data))
         # Get and delete an VM
         if not (len(list_volumes) == 0):
-            print(list_volumes)
             volume = list_volumes.pop()
             volume_url = "http://{}:8776/v2/{}/volumes/{}".format(IP, PROJECT_ID, volume.get('id'))
             send_request(volume_url, 'GET', headers=token_headers)
