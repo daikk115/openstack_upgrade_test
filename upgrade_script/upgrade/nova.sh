@@ -1,5 +1,5 @@
 echo "Start to upgrade Nova"
-
+sleep 2
 ssh controller1 "bash /root/test/nova/1_nova_api_stop" &
 ssh controller2 "bash /root/test/nova/1_nova_api_stop" &
 ssh controller3 "bash /root/test/nova/1_nova_api_stop" &
