@@ -10,4 +10,4 @@ service apache2 start
 
 bash $dir_path/../haproxy/enable_server.sh keystone_admin controller2
 bash $dir_path/../haproxy/enable_server.sh keystone_api controller2
-sleep 5
+sleep 10
