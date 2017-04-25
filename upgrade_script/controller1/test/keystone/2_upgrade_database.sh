@@ -1,7 +1,5 @@
 #!/bin/bash
 
-dir_path=$(dirname $0)
-
 keystone-manage db_sync --expand
 keystone-manage db_sync --migrate
 service apache2 start
