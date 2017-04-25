@@ -1,4 +1,4 @@
 #!/bin/bash
 service nova-compute stop
-apt-get -y  install --only-upgrade nova-compute
+apt-get -o Dpkg::Options::="--force-confold" -y  install --only-upgrade nova-compute
 service nova-compute start

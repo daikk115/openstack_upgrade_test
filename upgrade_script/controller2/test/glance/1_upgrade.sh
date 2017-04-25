@@ -2,7 +2,7 @@
 
 service glance-api stop
 service glance-registry stop
-apt-get -y install --only-upgrade glance
+apt-get -o Dpkg::Options::="--force-confold" -y install --only-upgrade glance
 service glance-api start
 service glance-registry start
 		

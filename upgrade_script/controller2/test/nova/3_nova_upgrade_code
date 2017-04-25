@@ -1,2 +1,2 @@
 #!/bin/bash
-apt-get -y install --only-upgrade nova-api nova-conductor nova-consoleauth nova-novncproxy nova-scheduler
+apt-get -o Dpkg::Options::="--force-confold" -y install --only-upgrade nova-api nova-conductor nova-consoleauth nova-novncproxy nova-scheduler

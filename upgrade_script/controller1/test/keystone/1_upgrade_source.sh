@@ -1,5 +1,5 @@
 #!/bin/bash
 
 service apache2 stop
-apt-get -y install --only-upgrade keystone
+apt-get -o Dpkg::Options::="--force-confold" -y install --only-upgrade keystone
 keystone-manage doctor

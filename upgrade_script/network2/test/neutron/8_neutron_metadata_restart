@@ -1,4 +1,4 @@
 #!/bin/bash
 service neutron-metadata-agent stop
-apt-get  -y install --only-upgrade 	neutron-metadata-agent
+apt-get -o Dpkg::Options::="--force-confold"  -y install --only-upgrade 	neutron-metadata-agent
 service neutron-metadata-agent start

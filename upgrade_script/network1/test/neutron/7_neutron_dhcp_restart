@@ -1,4 +1,4 @@
 #!/bin/bash
 service neutron-dhcp-agent stop
-apt-get -y install --only-upgrade neutron-dhcp-agent 
+apt-get -o Dpkg::Options::="--force-confold" -y install --only-upgrade neutron-dhcp-agent 
 service neutron-dhcp-agent start

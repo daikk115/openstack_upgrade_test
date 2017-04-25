@@ -1,4 +1,4 @@
 #!/bin/bash
 service neutron-linuxbridge-agent stop
-apt-get -y install --only-upgrade neutron-linuxbridge-agent
+apt-get -o Dpkg::Options::="--force-confold" -y install --only-upgrade neutron-linuxbridge-agent
 service neutron-linuxbridge-agent start
