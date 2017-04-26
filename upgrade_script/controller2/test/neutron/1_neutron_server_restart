@@ -1,0 +1,16 @@
+#!/bin/bash
+
+dir_path=$(dirname $0)
+bash $dir_path/../haproxy/disable_server.sh neutron_api controller2
+sleep 10
+
+service neutron-server stop
+sleep 2
+apt-get -o Dpkg::Options::="--force-confold" -y install --only-upgrade neutron-server neutron-plugin-ml2
+sleep 2
+service neutron-server start
+
+sleep 5
+
+bash $dir_path/../haproxy/enable_server.sh neutron_api controller2
+sleep 10

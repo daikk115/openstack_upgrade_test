@@ -1,4 +1,0 @@
-#!/bin/bash
-neutron-db-manage upgrade --expand
-neutron-db-manage upgrade --contract
-
