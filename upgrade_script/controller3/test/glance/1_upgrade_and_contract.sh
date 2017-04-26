@@ -1,8 +1,8 @@
 #!/bin/bash
 
 dir_path=$(dirname $0)
-bash $dir_path/../haproxy/disable_server.sh glance_api controller3
-bash $dir_path/../haproxy/disable_server.sh glance_res controller3
+bash $dir_path/../haproxy/disable_server.sh glance-api controller3
+bash $dir_path/../haproxy/disable_server.sh glance-registry controller3
 
 sleep 5
 
@@ -13,8 +13,8 @@ service glance-api start
 service glance-registry start
 sleep 3
 
-bash $dir_path/../haproxy/enable_server.sh glance_api controller3
-bash $dir_path/../haproxy/enable_server.sh glance_res controller3
+bash $dir_path/../haproxy/enable_server.sh glance-api controller3
+bash $dir_path/../haproxy/enable_server.sh glance-registry controller3
 
 glance-manage db contract
 		
