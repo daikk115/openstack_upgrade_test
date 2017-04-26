@@ -1,3 +1,13 @@
+#!/bin/bash
+
+dir_path=$(dirname $0)
+bash $dir_path/../haproxy/disable_server.sh cinder_api controller1
+
+sleep 10
+
 service cinder-api stop
 apt-get -o Dpkg::Options::="--force-confold" -y install --only-upgrade cinder-api
 service cinder-api start
+
+sleep 5
+bash $dir_path/../haproxy/enable_server.sh cinder_api controller1
