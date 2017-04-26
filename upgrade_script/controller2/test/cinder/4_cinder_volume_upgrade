@@ -1,1 +1,3 @@
+#!/bin/bash
+
 apt-get -o Dpkg::Options::="--force-confold" -y install --only-upgrade cinder-volume
