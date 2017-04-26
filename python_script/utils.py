@@ -46,6 +46,7 @@ def footer():
                 count += 1
                 is_find_start = False
                 start = task.get('timestamp')
+                error_dict[task.get('status')] = 1
         else:
             if (int(task.get('status')) / 100) == 5:
                 count += 1
