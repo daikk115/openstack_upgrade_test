@@ -1,3 +1,5 @@
+#!/bin/bash
+
 service cinder-scheduler stop
 apt-get -o Dpkg::Options::="--force-confold" -y install --only-upgrade cinder-scheduler
 service cinder-scheduler start

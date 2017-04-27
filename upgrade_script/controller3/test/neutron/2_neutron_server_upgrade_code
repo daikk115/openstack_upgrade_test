@@ -1,3 +1,0 @@
-#!/bin/bash
-apt-get -o Dpkg::Options::="--force-confold" -y install --only-upgrade neutron-server neutron-plugin-ml2
-
