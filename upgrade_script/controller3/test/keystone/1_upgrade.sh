@@ -12,7 +12,7 @@ service apache2 start
 
 sleep 5
 
-# keystone-manage db_sync --contract
+keystone-manage db_sync --contract
 
 bash $dir_path/../haproxy/enable_server.sh keystone_admin controller3
 bash $dir_path/../haproxy/enable_server.sh keystone_api controller3
