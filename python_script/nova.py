@@ -41,10 +41,11 @@ list_servers = result.get("servers")
 
 # Update VM
 # We should have separate VM for updating --> ensure have VM for update, that is.
-VM_ID = "857f9828-692b-4bda-99dd-b810b437f80a"
+VM_ID = "4b820660-e44b-4d36-964c-4bc273668a2e"
 
 if __name__ == '__main__':
-    i = 1
+    i = 0
+    n = len(list_servers)
     while continue_test:
         time.sleep(0.3)
         # Create VM
@@ -52,12 +53,11 @@ if __name__ == '__main__':
                      headers=create_headers,
                      data=json.JSONEncoder().encode(create_data))
         # Get and delete an VM
-        if not (len(list_servers) == 0):
-            server = list_servers.pop()
-            vm_url = "http://{}:8774/v2.1/{}/servers/{}".format(IP, PROJECT_ID, server.get('id'))
-            send_request(vm_url, 'GET', headers=get_headers)
-            # Delete VM
-            send_request(vm_url, 'DELETE', headers=get_headers)
+        server = list_servers[int(i % n)]
+        vm_url = "http://{}:8774/v2.1/{}/servers/{}".format(IP, PROJECT_ID, server.get('id'))
+        send_request(vm_url, 'GET', headers=get_headers)
+        # Delete VM
+        send_request(vm_url, 'DELETE', headers=get_headers)
 
         # Update VM name
         i += 1
