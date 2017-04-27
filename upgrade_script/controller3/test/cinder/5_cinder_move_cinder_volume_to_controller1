@@ -1,3 +1,0 @@
-#!/bin/bash
-
-crm_resource --resource p_cinder-volume --move -f --node controller1
