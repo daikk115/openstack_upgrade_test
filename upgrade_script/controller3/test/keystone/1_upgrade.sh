@@ -4,7 +4,7 @@ dir_path=$(dirname $0)
 bash $dir_path/../haproxy/disable_server.sh keystone_admin controller3
 bash $dir_path/../haproxy/disable_server.sh keystone_api controller3
 
-sleep 10
+sleep 20
 
 service apache2 stop
 apt-get -y -o Dpkg::Options::="--force-confold" install --only-upgrade keystone
