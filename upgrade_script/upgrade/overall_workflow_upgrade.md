@@ -1,4 +1,6 @@
-========== WORKFLOW UPGRADE KEYSTONE ==================
+# **The workflow upgrade Openstack projects from Newton to Ocata release**
+
+#### ========== WORKFLOW UPGRADE KEYSTONE ==================
 
 Step 1: 
 + Using drain mode in haproxy to detach keystone1 from cluster
@@ -30,7 +32,7 @@ Step 3:
 
 
 
-========== WORKFLOW UPGRADE GLANCE ==================
+#### ========== WORKFLOW UPGRADE GLANCE ==================
 
 Step 1: 
 + Using drain mode in haproxy to detach glance1 from cluster
@@ -63,7 +65,7 @@ Step 3:
 	- After all glance services at new release then running contract phase
 
 
-========== WORKFLOW UPGRADE NOVA ==================
+#### ========== WORKFLOW UPGRADE NOVA ==================
 
 Append this configure: [upgrade_levels]compute=auto to all nodes
 
@@ -75,17 +77,19 @@ Step 3: Upgrade new code:
 	
 Step 4: Upgrade DB on Controller1
 Note: For Nova, there are two commands to upgrade nova database
+```
 	nova-manage db sync
 	nova-manage api_db sync
-	
+```
+
 Step 5: Start Nova services:
 
-	+ Start all nova-conductor on 3 servers
-	+ Start nova-scheduler on 3 servers
-	+ Start nova-api	
++ Start all nova-conductor on 3 servers
++ Start nova-scheduler on 3 servers
++ Start nova-api	
 
 
-========== WORKFLOW UPGRADE NEUTRON ==================
+#### ========== WORKFLOW UPGRADE NEUTRON ==================
 
 Step 1: 
 + Using drain mode in haproxy to detach neutron-api1 from cluster
@@ -122,7 +126,7 @@ Step 7 Stop and upgrade Metadata-agent on two network nodes
 
 
 
-========== WORKFLOW UPGRADE CINDER ==================
+#### ========== WORKFLOW UPGRADE CINDER ==================
 
 Step 1: Upgrade cinder database
 	cinder-manage db sync
