@@ -28,6 +28,8 @@ Step 3:
 + Joint keystone3 to cluster
 
 
+
+
 ========== WORKFLOW UPGRADE GLANCE ==================
 
 Step 1: 
