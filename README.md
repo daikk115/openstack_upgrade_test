@@ -2,7 +2,7 @@
 
 - Prepare:
     + Reconfigure config.py file
-    + The parameter of server:
+    + The parameter of server nodes:
         - 03 controller nodes:
             + CPU: 4 cores
             + RAM: 8G
@@ -20,3 +20,5 @@
             + RAM: 10G
             + Disk: 40G
 
+- Topology:
+![topology](/images/Testbed_topology.png)
