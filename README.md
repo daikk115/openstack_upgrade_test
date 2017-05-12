@@ -2,10 +2,21 @@
 
 - Prepare:
     + Reconfigure config.py file
-- Test Keystone:
+    + The parameter of server:
+        - 03 controller nodes:
+            + CPU: 4 cores
+            + RAM: 8G
+            + Disk: 80G
+        - 02 network nodes:
+            + CPU: 4 cores
+            + RAM: 4G
+            + Disk: 80G
+        - 03 compute nodes:
+            + CPU: 8 cores
+            + RAM: 8G
+            + Disk: 80G
+        - 01 database node:
+            + CPU: 6 cores
+            + RAM: 10G
+            + Disk: 40G
 
-- Test Glance:
-
-- Test Nova:
-
-- Test Keystone:
