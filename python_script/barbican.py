@@ -15,9 +15,11 @@ update_headers = {
     'Content-Encoding': 'base64'
 }
 
-secrets_url = 'http://{}:9311/v1/secrets'.format(IP)
-orders_url = 'http://{}:9311/v1/orders'.format(IP)
-containers_url = 'http://{}:9311/v1/containers'.format(IP)
+VIP = "10.164.178.153"
+barbican_endpoint = "http://{}:9311/v1/{}/{}"
+secrets_url = 'http://{}:9311/v1/secrets'.format(VIP)
+orders_url = 'http://{}:9311/v1/orders'.format(VIP)
+containers_url = 'http://{}:9311/v1/containers'.format(VIP)
 
 
 def prepare_test_env():
@@ -78,37 +80,68 @@ def prepare_test_env():
                      data=json.JSONEncoder().encode(container_data))
 
 
+def get_list_test_items():
+    import MySQLdb
+    db = MySQLdb.connect(IP, "root", "abc123", "barbican")
+    cursor = db.cursor()
+
+    # List secrets
+    cursor.execute(
+        "SELECT * FROM secrets \
+        WHERE deleted = 0 and name like '%delete_secret%';")
+    db_items = cursor.fetchall()
+    list_delete_secrets = []
+    for secret in db_items:
+        list_delete_secrets.append(
+            barbican_endpoint.format(VIP, 'secrets', secret[0]))
+
+    cursor.execute(
+        "SELECT * FROM secrets WHERE deleted = 0 and name like '%no_payload%';")
+    db_items = cursor.fetchall()
+    list_update_secrets = []
+    for secret in db_items:
+        list_update_secrets.append(
+            barbican_endpoint.format(VIP, 'secrets', secret[0]))
+
+    # List order
+    cursor.execute(
+        "SELECT * FROM orders \
+         WHERE deleted = 0 and meta like '%delete_order%';")
+    db_items = cursor.fetchall()
+    list_delete_orders = []
+    for order in db_items:
+        list_delete_orders.append(
+            barbican_endpoint.format(VIP, 'orders', order[0]))
+
+    # List order
+    cursor.execute(
+        "SELECT * FROM containers \
+        WHERE deleted = 0 and name like '%delete_container%';")
+    db_items = cursor.fetchall()
+    list_delete_containers = []
+    for container in db_items:
+        list_delete_containers.append(
+            barbican_endpoint.format(VIP, 'containers', container[0]))
+
+    # disconnect from server
+    db.close()
+
+    return (
+        list_delete_secrets,
+        list_update_secrets,
+        list_delete_orders,
+        list_delete_containers
+    )
+
+
 def test():
     i = 3008
     """ GET LIST STUFFS """
-    # List secret
-    unlimit_secrets_url = secrets_url + "?limit=100000"
-    secrets = send_request(url=unlimit_secrets_url, method='GET',
-                           headers=headers)
-    secrets = secrets.result().content
-    secrets = json.loads(secrets)
-    list_secrets = secrets.get("secrets")
-    list_delete_secrets = [secret for secret in list_secrets if
-                           "delete_secret" in secret['name']]
-    list_update_secrets = [secret for secret in list_secrets if
-                           "no_payload_secret" in secret['name']]
-
-    unlimit_orders_url = orders_url + "?limit=100000"
-    orders = send_request(url=unlimit_orders_url, method='GET', headers=headers)
-    orders = orders.result().content
-    orders = json.loads(orders)
-    list_orders = orders.get("orders")
-    list_delete_orders = [order for order in list_orders if
-                          "delete_order" in order['meta']['name']]
-
-    unlimit_containers_url = containers_url + "?limit=100000"
-    containers = send_request(url=unlimit_containers_url,
-                              method='GET', headers=headers)
-    containers = containers.result().content
-    containers = json.loads(containers)
-    list_containers = containers.get("containers")
-    list_delete_containers = [container for container in list_containers if
-                              "delete_container" in container['name']]
+    db_data = get_list_test_items()
+    list_delete_secrets = db_data[0]
+    list_update_secrets = db_data[1]
+    list_delete_orders = db_data[2]
+    list_delete_containers = db_data[3]
 
     number_delete_secrets = len(list_delete_secrets)
     number_update_secrets = len(list_update_secrets)
@@ -135,14 +168,12 @@ def test():
                      data=json.JSONEncoder().encode(secret_data))
 
         # Update secret
-        update_secret = list_update_secrets[int(i % number_update_secrets)]
-        update_secret_ref = update_secret['secret_ref']
+        update_secret_ref = list_update_secrets[int(i % number_update_secrets)]
         send_request(update_secret_ref, method='PUT', headers=update_headers,
                      data='fake')
 
         # Get secret
-        delete_secret = list_delete_secrets[int(i % number_delete_secrets)]
-        delete_secret_ref = delete_secret['secret_ref']
+        delete_secret_ref = list_delete_secrets[int(i % number_delete_secrets)]
         send_request(url=delete_secret_ref, method='GET', headers=headers)
 
         # Delete secret
@@ -166,8 +197,7 @@ def test():
                      data=json.JSONEncoder().encode(order_data))
 
         # Get order
-        delete_order = list_delete_orders[int(i % number_delete_orders)]
-        delete_order_ref = delete_order['order_ref']
+        delete_order_ref = list_delete_orders[int(i % number_delete_orders)]
         send_request(delete_order_ref, method='GET', headers=headers)
 
         # Delete order
@@ -186,9 +216,8 @@ def test():
                      data=json.JSONEncoder().encode(container_data))
 
         # Get container
-        delete_container = list_delete_containers[
+        delete_container_ref = list_delete_containers[
             int(i % number_delete_containers)]
-        delete_container_ref = delete_container['container_ref']
         send_request(delete_container_ref, method='GET', headers=headers)
 
         # Delete order
