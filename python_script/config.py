@@ -1,5 +1,5 @@
-IP = '10.164.180.105'
+IP = '10.164.178.153'
 USERNAME = 'admin'
-PASSWORD = 'nam123'
+PASSWORD = 'abc123'
 PROJECT_NAME = 'admin'
-AUTH_URL = 'http://{}:5000/v3'.format(IP)
+AUTH_URL = 'http://{}/identity/v3'.format(IP)
